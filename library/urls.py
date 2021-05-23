@@ -19,12 +19,18 @@ from rest_framework.routers import DefaultRouter
 from authors.views import *
 
 router = DefaultRouter()
-router.register('authors', AuthorModelViewSet)
-router.register('books', BookModelViewSet)
-router.register('biography', BiographyModelViewSet)
-router.register('article', ArticleModelViewSet)
+# router.register('authors', AuthorModelViewSet)
+router.register('books', BookModelViewSet, basename='books')
+# router.register('biography', BiographyModelViewSet)
+router.register('article', ArticleModelViewSet, basename='article')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('api/article-list-view', ArticleModelViewSet.as_view({'get': 'list'})),
+    # path('api/article-list-view/kwargs/<int:pk>', ArticleArgsModelViewSet.as_view({'get': 'list'})),
+    # path('api/article-create-view', ArticleCreateModelView.as_view()),
+    # path('api/article-create-view/<int:pk>', RetrieveAPIView.as_view()),
+    # path('api/article-view', article_view),
+
     path('api/', include(router.urls)),
 ]

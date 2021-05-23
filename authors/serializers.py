@@ -2,7 +2,16 @@ from rest_framework import serializers
 from .models import *
 
 
-class AuthorSerializer(serializers.HyperlinkedModelSerializer):
+class ArticleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Article
+        fields = '__all__'
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    articles = ArticleSerializer(many=True)
+
     class Meta:
         model = Author
         fields = '__all__'
@@ -13,14 +22,6 @@ class BiographySerializer(serializers.ModelSerializer):
         model = Biography
         fields = '__all__'
         # fields = ['text', 'author']
-
-
-class ArticleSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()
-
-    class Meta:
-        model = Article
-        fields = '__all__'
 
 
 class BookSerializer(serializers.ModelSerializer):
