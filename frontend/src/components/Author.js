@@ -8,7 +8,10 @@ const AuthorItem = ({author}) => {
                {author.id}
            </td>
            <td>
-               <Link to={`/author/${author.id}`}>{author.name}</Link>
+               <Link to={`/author/${author.id}`}>{author.first_name}</Link>
+           </td>
+           <td>
+               <Link to={`/author/${author.id}`}>{author.last_name}</Link>
            </td>
            <td>
                {author.birthday_year}
@@ -24,7 +27,10 @@ const AuthorList = ({authors}) => {
                Id
            </th>
            <th>
-               Name
+               First name
+           </th>
+           <th>
+               Last name
            </th>
            <th>
                Birthday year

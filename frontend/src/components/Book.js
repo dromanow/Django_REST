@@ -10,7 +10,7 @@ const BookItem = ({book}) => {
                {book.name}
            </td>
            <td>
-               {book.author.name}
+               {book.authors}
            </td>
        </tr>
    )
@@ -26,7 +26,7 @@ const BookList = ({books}) => {
                Name
            </th>
            <th>
-               Author
+               Authors
            </th>
            {books.map((book) => <BookItem book={book} />)}
        </table>
