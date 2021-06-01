@@ -10,7 +10,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class AuthorSerializer(serializers.ModelSerializer):
-    articles = ArticleSerializer(many=True)
+    # articles = ArticleSerializer(many=True)
 
     class Meta:
         model = Author
@@ -25,7 +25,7 @@ class BiographySerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    authors = serializers.StringRelatedField(many=True)
+    # authors = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Book
