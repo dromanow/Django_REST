@@ -30,3 +30,9 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
+
+
+class BibliographySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bibliography
+        fields = '__all__'

@@ -1,12 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import AuthorList from './components/Author.js';
 import AuthorPage from './components/AuthorPage.js';
 import BookList from './components/Book.js';
 import LoginForm from './components/Auth.js';
 import axios from 'axios';
-import {HashRouter, BrowserRouter, Route, Redirect, Switch, Link } from 'react-router-dom';
+import {HashRouter, Route, Redirect, Switch, Link } from 'react-router-dom';
 
 const NotFound404 = ({location}) => {
     return(
@@ -19,30 +18,20 @@ const NotFound404 = ({location}) => {
 class App extends React.Component {
     constructor(props) {
        super(props);
-       let token = localStorage.getItem('token');
        this.state = {
           'authors': [],
           'books': [],
-          'token': token
+          'token': ''
        }
     }
 
     restore_token() {
        let token = localStorage.getItem('token');
-//       console.log(           {
-//               'token': token
-//           }
-//        );
        this.setState(
            {
                'token': token
-           }
+           }, this.load_data
        );
-
-//       console.log('restore_token');
-//       console.log(localStorage.getItem('token'));
-//       console.log(this.state);
-//
     }
 
     create_header() {
@@ -56,10 +45,6 @@ class App extends React.Component {
 
     load_data() {
        let headers = this.create_header();
-
-//       console.log(localStorage.getItem('token'));
-//       console.log(this.state.token);
-//       console.log(headers);
 
        axios
        .get('http://127.0.0.1:8000/api/authors/', {headers})
@@ -83,24 +68,31 @@ class App extends React.Component {
                }
            )
        })
-       .catch(error => console.log(error))
+       .catch(error => {
+           this.setState(
+               {
+                   'books': []
+               }
+           )
+           console.log(error)
+        })
     }
 
     componentDidMount() {
         this.restore_token();
-        this.load_data();
     }
 
     is_auth() {
-        return this.state.token != '';
+        return !!(this.state.token);
     }
 
     logout() {
-           this.setState(
-               {
-                   'token': ''
-               }
-           );
+        localStorage.removeItem('token')
+        this.setState(
+            {
+               'token': ''
+            }, this.load_data
+        );
     }
 
     get_token(login, password) {
@@ -110,15 +102,12 @@ class App extends React.Component {
             {"username": login, "password": password}
        )
        .then(response => {
+           localStorage.setItem('token', response.data.token)
            this.setState(
                {
                    'token': response.data.token
-               }
+               }, this.load_data
            );
-           localStorage.setItem('token', response.data.token)
-
-           console.log(this.state.token);
-//            let item = localStorage.getItem('token');
        })
        .catch(error => alert('Wrong password'))
     }

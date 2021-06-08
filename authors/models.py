@@ -23,3 +23,10 @@ class Book(models.Model):
 class Article(models.Model):
     name = models.CharField(max_length=32)
     author = models.ForeignKey(Author, models.PROTECT)
+
+
+class Bibliography(models.Model):
+    title = models.CharField(max_length=32)
+    article = models.ForeignKey(Article, models.PROTECT)
+
+
