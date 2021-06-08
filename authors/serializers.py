@@ -9,9 +9,13 @@ class ArticleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AuthorSerializer(serializers.ModelSerializer):
-    # articles = ArticleSerializer(many=True)
+class AuthorSerializerV1(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ['first_name', 'last_name']
 
+
+class AuthorSerializerV2(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = '__all__'

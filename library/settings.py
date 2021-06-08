@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
     'corsheaders',
     'django_filters',
     'authors',
@@ -140,7 +141,25 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+
+    # http://127.0.0.1:8000/api/1.0/authors/
+    # http://127.0.0.1:8000/api/2.0/authors/
+    # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
+
+    # http://127.0.0.1:8000/api/authors/1.0
+    # http://127.0.0.1:8000/api/authors/2.0
+    # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+
+    # http://127.0.0.1:8000/api/authors/?version=1.0
+    # http://127.0.0.1:8000/api/authors/?version=2.0
+    # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning',
+
+    # http://127.0.0.1:8000/api/authors/
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
+
+    # http://v2.somehost.ru/api/authors/
+    # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.HostNameVersioning',
 }
 
 # Static files (CSS, JavaScript, Images)
