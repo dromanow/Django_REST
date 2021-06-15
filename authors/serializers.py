@@ -12,7 +12,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 class AuthorSerializerV1(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ['first_name', 'last_name']
+        fields = '__all__'
+        # fields = ['first_name', 'last_name']
 
 
 class AuthorSerializerV2(serializers.ModelSerializer):

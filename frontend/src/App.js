@@ -4,6 +4,7 @@ import AuthorList from './components/Author.js';
 import AuthorPage from './components/AuthorPage.js';
 import BookList from './components/Book.js';
 import LoginForm from './components/Auth.js';
+import BookForm from './components/BookForm.js';
 import axios from 'axios';
 import {HashRouter, Route, Redirect, Switch, Link } from 'react-router-dom';
 
@@ -112,6 +113,35 @@ class App extends React.Component {
        .catch(error => alert('Wrong password'))
     }
 
+    delete_book(id) {
+       let headers = this.create_header();
+       axios
+       .delete(`http://127.0.0.1:8000/api/books/${id}/`, {headers})
+       .then(response => {
+           this.setState(
+               {
+                   'books': this.state.books.filter((book) => book.id !== id)
+               }
+           )
+       })
+       .catch(error => {console.log(error)})
+    }
+
+    create_book(name, authors) {
+        console.log("create_book " + name + " - " + authors);
+        console.log(authors);
+
+       axios
+       .post(
+            'http://127.0.0.1:8000/api/books/',
+            {"name": name, "authors": authors}
+       )
+       .then(response => {
+            this.load_data();
+       })
+       .catch(error => console.log('Wrong password'))
+    }
+
     render() {
         return (
             <div>
@@ -124,6 +154,9 @@ class App extends React.Component {
                             <li>
                                 <Link to='/books'>Books</Link>
                             </li>
+                            <li>
+                                <Link to='/books/create'>New book</Link>
+                            </li>
                             <li>{
                                 this.is_auth() ?
                                     <button onClick={() => this.logout()}>Logout</button> :
@@ -134,8 +167,10 @@ class App extends React.Component {
                     </nav>
                     <Switch>
                         <Route exact path='/' component = {() => <AuthorList authors={this.state.authors} />} />
-                        <Route exact path='/books' component = {() => <BookList books={this.state.books} />} />
+                        <Route exact path='/books' component = {() => <BookList books={this.state.books} delete_book = {(id) => this.delete_book(id)} />} />
                         <Route exact path='/login' component = {() => <LoginForm get_token={(username, password) => this.get_token(username, password)}/>} />
+                        <Route exact path='/books/create'
+                            component = {() => <BookForm create_book = {(name, authors) => this.create_book(name, authors)} authors={this.state.authors} />} />
                         <Route exact path='/author/:id' component = {() => <AuthorPage authors={this.state.authors} />} />
                         <Redirect from='/authors' to='/' />
                         <Route component={NotFound404} />
