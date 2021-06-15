@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_yasg',
     'corsheaders',
+    'graphene_django',
     'django_filters',
     'authors',
 ]
@@ -160,6 +161,10 @@ REST_FRAMEWORK = {
 
     # http://v2.somehost.ru/api/authors/
     # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.HostNameVersioning',
+}
+
+GRAPHENE = {
+    "SCHEMA": "authors.schema.schema"
 }
 
 # Static files (CSS, JavaScript, Images)
